@@ -28,3 +28,25 @@ export function getParam(param) {
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
+
+/**
+ * renderListWithTemplate(templateFn, parentElement, list, position = "afterbegin", clear = false)
+ * Reusable renderer for mapping a list of data items to a single HTML template function.
+ * - templateFn: (item) => string
+ * - parentElement: Element to insert into
+ * - list: array of items
+ * - position: insertAdjacentHTML position (default "afterbegin")
+ * - clear: if true, empties parentElement before inserting
+ */
+export function renderListWithTemplate(
+  templateFn,
+  parentElement,
+  list,
+  position = "afterbegin",
+  clear = false
+) {
+  if (!parentElement) return;
+  if (clear) parentElement.innerHTML = "";
+  const htmlStrings = (list ?? []).map((item) => templateFn(item));
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
