@@ -24,22 +24,26 @@ export default class ProductDetails {
         setLocalStorage("so-cart", cartItems);
     }
 
-    renderProductDetails() {
-        productDetailsTemplate(this.product);
+    renderProductDetails(list) {
+        const parent = document.querySelector("main");
+        const details = productDetailsTemplate(this.product);
+        parent.appendChild(details);
     }
 }
 
 function productDetailsTemplate(product) {
-    document.querySelector('h2').textContent = product.Brand.Name;
-    document.querySelector('h3').textContent = product.NameWithoutBrand;
+    const container = document.createElement("section");
+    container.classList.add("product-detail");
 
-    const productImage = document.getElementById('productImage');
-    productImage.src = product.Image;
-    productImage.alt = product.NameWithoutBrand;
+    container.innerHTML = `
+    <h2>${product.Brand.Name}</h2>
+    <h3 class="divider">${product.NameWithoutBrand}</h3>
+    <img src="${product.Image}" alt="${product.NameWithoutBrand}" id="productImage" class="divider"/>
+    <p id="productPrice">$${product.FinalPrice}</p>
+    <p id="productColor">${product.Colors[0].ColorName}</p>
+    <div id="productDesc">${product.DescriptionHtmlSimple}</div>
+    <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+  `;
 
-    document.getElementById('productPrice').textContent = product.FinalPrice;
-    document.getElementById('productColor').textContent = product.Colors[0].ColorName;
-    document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
-
-    document.getElementById('addToCart').dataset.id = product.Id;
+    return container;
 }
