@@ -1,8 +1,8 @@
 [
   {
     "Id": "880RR",
-    "NameWithoutBrand": "Ajax Tent - 3-Person, 3-Season",
-    "Name": "Marmot Ajax Tent - 3-Person, 3-Season",
+    "NameWithoutBrand": "Blue Jeans XL",
+    "Name": "Blue Jeans XL - 3-Person, 3-Season",
     "Image": "../images/tents/marmot-ajax-tent-3-person-3-season-in-pale-pumpkin-terracotta~p~880rr_01~320.jpg",
 
     "SizesAvailable": {},
@@ -17,7 +17,7 @@
     "Brand": {
       "Id": "1308",
       "LogoSrc": "../images/logos/marmot-160x100.jpg",
-      "Name": "Marmot"
+      "Name": "Levi´s"
     },
     "ListPrice": 199.99,
     "FinalPrice": 199.99
