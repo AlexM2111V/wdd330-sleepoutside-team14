@@ -6,6 +6,7 @@ function convertToJson(res) {
   }
 }
 
+//TODO: async await would be cleaner here
 export default class ProductData {
   constructor(category) {
     this.category = category;
