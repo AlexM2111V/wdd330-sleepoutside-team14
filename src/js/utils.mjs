@@ -38,3 +38,10 @@ export function renderListWithTemplate(template, parentElement, list, position =
   }
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
+
+function renderCartContents() {
+  // getLocalStorage may return null when no data exists; default to empty array
+  const cartItems = getLocalStorage("so-cart") || [];
+  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+  document.querySelector(".product-list").innerHTML = htmlItems.join("");
+}
