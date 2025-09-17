@@ -133,6 +133,20 @@ button {
 
 /* End cart icon styles */
 
+/* Backpack icon with item count styles */
+.item-count-badge {
+  position: absolute;
+  top: 13px;
+  right: -6px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  padding: 1px 4px;
+  border-radius: 50%;
+  z-index: 10
+}
+/* End Backpack icon with item count styles */
+
 .mission {
   position: absolute;
   top: 1rem;
