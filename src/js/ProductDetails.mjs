@@ -33,13 +33,16 @@ export default class ProductDetails {
 
 function productDetailsTemplate(product) {
     const container = document.createElement("section");
+    const percentageSaved = ((product.SuggestedRetailPrice - product.FinalPrice)/product.SuggestedRetailPrice * 100).toFixed(0);
     container.classList.add("product-detail");
+    
 
     container.innerHTML = `
     <h2>${product.Brand.Name}</h2>
     <h3 class="divider">${product.NameWithoutBrand}</h3>
     <img src="${product.Image}" alt="${product.NameWithoutBrand}" id="productImage" class="divider"/>
-    <p id="productPrice">$${product.FinalPrice}</p>
+    <p class="product-detail-price">$${product.FinalPrice} <span class="saved"> ${percentageSaved}% off</span></p>
+    <p class="product-detail-suggested">$${product.SuggestedRetailPrice}</p>
     <p id="productColor">${product.Colors[0].ColorName}</p>
     <div id="productDesc">${product.DescriptionHtmlSimple}</div>
     <button id="addToCart" data-id="${product.Id}">Add to Cart</button>

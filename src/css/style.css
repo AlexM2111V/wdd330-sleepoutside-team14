@@ -143,7 +143,7 @@ button {
   font-size: 0.75rem;
   padding: 1px 4px;
   border-radius: 50%;
-  z-index: 10
+  z-index: 10;
 }
 /* End Backpack icon with item count styles */
 
@@ -188,14 +188,30 @@ button {
   flex: 1 1 45%;
   margin: 0.25em;
   padding: 0.5em;
+  padding-bottom: 1em;
+  padding-top: 0;
   border: 1px solid var(--light-grey);
   max-width: 250px;
 }
 
-.product-card h2,
-.product-card h3,
-.product-card p {
+.product-card h3 {
   margin: 0.5em 0;
+}
+
+.product-card-price {
+  padding: 0;
+}
+
+.suggested {
+  text-decoration: line-through;
+  color: gray;
+  font-size: 0.8rem;
+}
+
+.saved {
+  color: var(--tertiary-color);
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 .card__brand {
@@ -213,6 +229,18 @@ button {
   max-width: 500px;
   margin: auto;
   text-align: center;
+}
+
+.product-detail-price {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+.product-detail-suggested {
+  text-decoration: line-through;
+  color: gray;
+  font-size: 0.8rem;
+  padding: 0;
 }
 
 .product-detail img {
