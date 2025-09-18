@@ -24,13 +24,15 @@ export default class ProductList {
 }
 
 function productCardTemplate(product) {
+    const percentageSaved = ((product.SuggestedRetailPrice - product.FinalPrice)/product.SuggestedRetailPrice * 100).toFixed(0);
     return `
     <li class="product-card">
       <a href="product_pages/?product=${product.Id}">
         <img src="${product.Image}" alt="${product.Name}">
         <h2>${product.Brand.Name}</h2>
-        <h3>${product.Name}</h3>
-        <p class="product-card__price">$${product.FinalPrice}</p>
+        <h3>${product.NameWithoutBrand}</h3>
+        <p class="product-card-price suggested">$${product.SuggestedRetailPrice}</p>
+        <p class="product-card-price">$${product.FinalPrice} <span class="saved"> ${percentageSaved}% off</span></p>
       </a>
     </li>
     `;
