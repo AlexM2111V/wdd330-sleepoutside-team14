@@ -6,9 +6,10 @@ import { loadHeaderFooter } from "./utils.mjs";
 const dataSource = new ProductData("tents");
 const productID = getParam("product");
 
+loadHeaderFooter();
+
 const product = new ProductDetails(productID, dataSource);
 product.init();
-loadHeaderFooter();
 
 // // add to cart button event handler
 // async function addToCartHandler(e) {

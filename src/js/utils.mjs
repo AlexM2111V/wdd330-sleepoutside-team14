@@ -58,17 +58,17 @@ export async function loadTemplate(path) {
 
 export function loadHeaderFooter() {
   // load the header
-  loadTemplate("./partials/header.html")
+  loadTemplate("/partials/header.html")
     .then((template) => {
-      renderWithTemplate(template, qs("header#main-header"));
+      renderWithTemplate(template, qs("#main-header"));
     })
     .catch((err) => {
       console.error(err);
     });
   // load the footer
-  loadTemplate("./partials/footer.html")
+  loadTemplate("/partials/footer.html")
     .then((template) => {
-      renderWithTemplate(template, qs("footer#main-footer"));
+      renderWithTemplate(template, qs("#main-footer"));
     })
     .catch((err) => {
       console.error(err);
