@@ -12,6 +12,7 @@ export default class ProductDetails {
         // use the datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
         this.product = await this.dataSource.findProductById(this.productId);
         // the product details are needed before rendering the HTML
+        
         this.renderProductDetails();
         document
             .getElementById('addToCart')
@@ -24,29 +25,29 @@ export default class ProductDetails {
         setLocalStorage("so-cart", cartItems);
     }
 
-    renderProductDetails(list) {
-        const parent = document.querySelector("main");
-        const details = productDetailsTemplate(this.product);
-        parent.appendChild(details);
+    renderProductDetails() {
+        productDetailsTemplate(this.product);
     }
 }
 
 function productDetailsTemplate(product) {
     const container = document.createElement("section");
-    const percentageSaved = ((product.SuggestedRetailPrice - product.FinalPrice)/product.SuggestedRetailPrice * 100).toFixed(0);
+    const percentageSaved = ((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice * 100).toFixed(0);
     container.classList.add("product-detail");
     
 
     container.innerHTML = `
     <h2>${product.Brand.Name}</h2>
     <h3 class="divider">${product.NameWithoutBrand}</h3>
-    <img src="${product.Image}" alt="${product.NameWithoutBrand}" id="productImage" class="divider"/>
+    <img src="${product.Images.PrimaryLarge}" alt="${product.NameWithoutBrand}" id="productImage" class="divider"/>
     <p class="product-detail-price">$${product.FinalPrice} <span class="saved"> ${percentageSaved}% off</span></p>
     <p class="product-detail-suggested">$${product.SuggestedRetailPrice}</p>
     <p id="productColor">${product.Colors[0].ColorName}</p>
     <div id="productDesc">${product.DescriptionHtmlSimple}</div>
     <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
   `;
+    
+    document.querySelector("main").appendChild(container);
 
     return container;
 }

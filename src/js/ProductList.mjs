@@ -10,9 +10,9 @@ export default class ProductList {
 
     async init() {
         // use the datasource to get the list of products. getData will return a promise! use await or .then() to process it
-        const list = await this.dataSource.getData();
-        console.log(list);
+        const list = await this.dataSource.getData(this.category);
         // the product list is needed before rendering the HTML
+        this.updateTitle();
         this.renderProductList(list);
     }
 
@@ -21,14 +21,20 @@ export default class ProductList {
 
     }
 
+    updateTitle() {
+        const title = document.querySelector("h1");
+        const formattedCategory = this.category.charAt(0).toUpperCase() + this.category.slice(1);
+        title.textContent = `Top Products: ${formattedCategory}`;
+    }
+
 }
 
 function productCardTemplate(product) {
     const percentageSaved = ((product.SuggestedRetailPrice - product.FinalPrice)/product.SuggestedRetailPrice * 100).toFixed(0);
     return `
     <li class="product-card">
-      <a href="product_pages/?product=${product.Id}">
-        <img src="${product.Image}" alt="${product.Name}">
+      <a href="/product_pages/?product=${product.Id}">
+        <img src="${product.Images.PrimaryMedium}" alt="${product.NameWithoutBrand}"/>
         <h2>${product.Brand.Name}</h2>
         <h3>${product.NameWithoutBrand}</h3>
         <p class="product-card-price suggested">$${product.SuggestedRetailPrice}</p>
