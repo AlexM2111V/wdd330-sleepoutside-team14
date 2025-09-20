@@ -4,11 +4,11 @@ import Alert from "./Alert.mjs";
 import { displayCartCount } from "./cart-icon.js";
 import { loadHeaderFooter } from "./utils.mjs";
 
-const dataSource = new ProductData("tents");
+const dataSource = new ProductData();
 
 const element = document.querySelector(".product-list");
 
-const productList = new ProductList("Tents", dataSource, element);
+const productList = new ProductList("tents", dataSource, element);
 
 const alertManager = new Alert();
 
