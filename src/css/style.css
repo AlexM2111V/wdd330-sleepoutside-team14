@@ -290,6 +290,49 @@ button {
   grid-column: 3;
 }
 
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  list-style: none;
+}
+
+.category-card {
+  text-align: center;
+  border: 1px solid var(--light-grey);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-card a {
+  display: block;
+  padding: 1.5rem 1rem;
+  text-decoration: none;
+  color: var(--dark-grey);
+  transition: color 0.3s ease;
+}
+
+.category-card a:hover {
+  color: var(--tertiary-color);
+}
+
+.category-card .icon {
+  margin-bottom: 0.5rem;
+}
+
+.category-grid span {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: var(--large-font);
+  font-weight: 500;
+  font-family: var(--font-headline);
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
