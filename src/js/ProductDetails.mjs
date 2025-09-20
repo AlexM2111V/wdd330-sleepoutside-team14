@@ -12,6 +12,7 @@ export default class ProductDetails {
         // use the datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
         this.product = await this.dataSource.findProductById(this.productId);
         // the product details are needed before rendering the HTML
+        
         this.renderProductDetails();
         document
             .getElementById('addToCart')

@@ -1,6 +1,6 @@
 import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
-// import { displayCartCount } from "./cart-icon.js";
+import { displayCartCount } from "./cart-icon.js";
 import { loadHeaderFooter, getParam } from "./utils.mjs";
 
 loadHeaderFooter();
