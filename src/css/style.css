@@ -166,8 +166,51 @@ button {
 }
 
 .products {
-  margin-top: 2rem;
   padding: 1rem;
+}
+
+.products h1{
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.categories{
+  text-align: center;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.categories h1{
+  margin: 1.5rem;
+}
+
+.category-img{
+  width: 60px;
+  height: 60px;
+}
+
+.product-categories{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.product-categories li{
+  list-style-type: none;
+}
+
+.product-categories a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.product-categories a{
+  text-decoration: none;
+  color: var(--tertiary-color);
+  font-weight: bold;
 }
 
 .product-list {
