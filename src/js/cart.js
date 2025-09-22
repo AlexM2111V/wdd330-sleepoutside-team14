@@ -30,9 +30,14 @@ function cartItemTemplate(item) {
 function removeItemFromCart(e) {
   const cartItems = getLocalStorage("so-cart");
   const itemId = e.target.dataset.id;
-  const newCartItems = cartItems.filter((item) => item.Id != itemId);
-  localStorage.setItem("so-cart", JSON.stringify(newCartItems));
-  renderCartContents();
+  
+  //! fix for removing multiple items of the same ID DO NOT REMOVE THIS
+  const itemIndex = cartItems.findIndex((item) => item.Id == itemId);
+  if (itemIndex !== -1) {
+    cartItems.splice(itemIndex, 1);
+    localStorage.setItem("so-cart", JSON.stringify(cartItems));
+    renderCartContents();
+  }
 }
 
 renderCartContents();
