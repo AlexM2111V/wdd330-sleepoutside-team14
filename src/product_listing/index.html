@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Basic head -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sleep Outside | Product Listing</title>
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Page script that renders this listing dynamically -->
+    <script type="module" src="/js/product-listing.js"></script>
+  </head>
+  <body>
+    <!-- Dynamic header via partials -->
+    <header class="divider" id="main-header"></header>
+
+    <main class="divider">
+      <section class="products">
+        <h2 id="listing-title">Top Products</h2>
+        <ul class="product-list"></ul>
+      </section>
+    </main>
+
+    <!-- Dynamic footer via partials -->
+    <footer id="main-footer"></footer>
+
+    <!-- Load header/footer -->
+    <script type="module">
+      import { loadHeaderFooter } from "/js/utils.mjs";
+      loadHeaderFooter();
+    </script>
+  </body>
+</html>

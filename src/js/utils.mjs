@@ -1,43 +1,35 @@
-// wrapper for querySelector...returns matching element
+// src/js/utils.mjs
+// ------------------------------------------------------
+// Common utilities used across the app.
+// Includes:
+//  - DOM helpers (qs)
+//  - LocalStorage helpers
+//  - URL param helper (getParam)
+//  - Rendering helpers for lists and single templates
+//  - Header/Footer partial loader
+// ------------------------------------------------------
+
+// Select a single element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-// retrieve data from localstorage
+// LocalStorage helpers
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
-// save data to local storage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-// set a listener for both touchend and click
-export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
-    event.preventDefault();
-    callback();
-  });
-  qs(selector).addEventListener("click", callback);
-}
 
-// get a query parameter value
+// Get a URL query parameter by name, e.g. getParam('category')
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
 
-/**
- * renderListWithTemplate(templateFn, parentElement, list, position = "afterbegin", clear = false)
- * Reusable renderer for mapping a list of data items to a single HTML template function.
- * - templateFn: (item) => string
- * - parentElement: Element to insert into
- * - list: array of items
- * - position: insertAdjacentHTML position (default "afterbegin")
- * - clear: if true, empties parentElement before inserting
- */
+// Render a list using a template function
 export function renderListWithTemplate(
   templateFn,
   parentElement,
@@ -49,4 +41,32 @@ export function renderListWithTemplate(
   if (clear) parentElement.innerHTML = "";
   const htmlStrings = (list ?? []).map((item) => templateFn(item));
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+// Render a single HTML template into a container
+export function renderWithTemplate(template, parentElement, data, callback) {
+  const fragment = document.createRange().createContextualFragment(template);
+  parentElement.replaceChildren(fragment);
+  if (callback) callback(data);
+}
+
+// Load an HTML partial as a string
+export async function loadTemplate(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load template: ${path}`);
+  return await res.text();
+}
+
+// Insert header and footer partials into #main-header and #main-footer
+export async function loadHeaderFooter() {
+  const [headerTemplate, footerTemplate] = await Promise.all([
+    loadTemplate("/partials/header.html"),
+    loadTemplate("/partials/footer.html"),
+  ]);
+
+  const headerElement = document.querySelector("#main-header");
+  const footerElement = document.querySelector("#main-footer");
+
+  if (headerElement) renderWithTemplate(headerTemplate, headerElement);
+  if (footerElement) renderWithTemplate(footerTemplate, footerElement);
 }

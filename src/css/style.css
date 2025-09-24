@@ -1,3 +1,14 @@
+/* src/css/style.css
+   -------------------------------------------------------
+   Global styles for Sleep Outside. This includes:
+   - CSS variables, base typography
+   - Header, hero, utility classes
+   - Product list cards
+   - Product detail styles
+   - Cart styles
+   - UPDATED: Category grid image constraints to avoid giant SVGs
+   ------------------------------------------------------- */
+
 :root {
   --font-body: Arial, Helvetica, sans-serif;
   --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
@@ -116,7 +127,7 @@ button {
 
 /* End utility classes */
 
-/* Cart icon styles */
+/* Cart icon styles in header */
 .cart {
   padding-top: 1em;
   position: relative;
@@ -130,7 +141,6 @@ button {
 .cart:hover svg {
   fill: gray;
 }
-
 /* End cart icon styles */
 
 .mission {
@@ -151,30 +161,48 @@ button {
   text-align: center;
 }
 
+/* Product sections */
 .products {
   margin-top: 2rem;
   padding: 1rem;
 }
 
+/* -------------------------------------------------------
+   PRODUCT LIST GRID (used for both category tiles and products)
+   ------------------------------------------------------- */
 .product-list {
   display: flex;
   flex-flow: row wrap;
   list-style-type: none;
   justify-content: center;
+  gap: 1rem; /* spacing between tiles */
+  padding: 0;
+  margin: 0;
 }
 
 .product-list a {
   text-decoration: none;
   color: var(--dark-grey);
+  display: block;
 }
 
 /* Styles for product lists */
 .product-card {
-  flex: 1 1 45%;
+  flex: 1 1 220px;          /* responsive tiles */
   margin: 0.25em;
   padding: 0.5em;
   border: 1px solid var(--light-grey);
   max-width: 250px;
+  text-align: center;
+}
+
+/* Constrain tile images (prevents huge SVGs) */
+.product-card img {
+  width: 140px;             /* adjust as desired */
+  height: 140px;
+  display: block;
+  margin: 0.5rem auto;
+  object-fit: contain;
 }
 
 .product-card h2,
@@ -191,8 +219,7 @@ button {
   font-size: 1em;
 }
 
-/* End product list card */
-
+/* Product detail page */
 .product-detail {
   padding: 1em;
   max-width: 500px;
@@ -203,18 +230,31 @@ button {
   width: 100%;
 }
 
-/* Start cart list card styles */
+/* -------------------------------------------------------
+   CART styles (kept and compatible with your JS)
+   ------------------------------------------------------- */
 .cart-card {
   display: grid;
-  grid-template-columns: 25% auto 15%;
+  grid-template-columns: 150px 1fr; /* image | info */
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  align-items: start;
   font-size: var(--small-font);
-  /* max-height: 120px; */
-  align-items: center;
 }
 
 .cart-card__image {
-  grid-row: 1/3;
   grid-column: 1;
+}
+
+.cart-card__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cart-card__content {
+  grid-column: 2;
 }
 
 .cart-card p {
@@ -222,25 +262,36 @@ button {
 }
 
 .cart-card .card__name {
-  grid-row: 1;
-  grid-column: 2;
+  margin-top: 0.1rem;
+  font-size: 1rem;
 }
 
-.cart-card__color {
-  grid-row: 2;
-  grid-column: 2;
+.cart-card__quantity,
+.cart-card__price,
+.cart-card__line {
+  margin: 0.25rem 0;
 }
 
-.cart-card__quantity {
-  grid-row: 1;
-  grid-column: 3;
+.cart-item__qty {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.5rem 0;
 }
 
-.cart-card__price {
-  grid-row: 2;
-  grid-column: 3;
+.cart-item__qty .qty {
+  min-width: 1.5rem;
+  text-align: center;
+  display: inline-block;
 }
 
+.cart-summary {
+  margin-top: 1rem;
+  border-top: 2px solid var(--primary-color);
+  padding-top: 0.75rem;
+}
+
+/* Wide view */
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
@@ -253,7 +304,7 @@ button {
 
   .cart-card {
     font-size: inherit;
-    grid-template-columns: 150px auto 15%;
+    grid-template-columns: 180px 1fr;
   }
 }
 

@@ -1,54 +1,75 @@
-// ProductList.mjs
-// W02 Individual Activity: Dynamic Product List
-// ⚠️ Keep comments: This module renders product cards using a reusable template+renderer approach.
+// src/js/ProductList.mjs
+// ------------------------------------------------------
+// Renders a list of product cards, using a dataSource and a template function.
+// With API data, image fields come from product.Images.PrimaryMedium, etc.
+// ------------------------------------------------------
 
 import { renderListWithTemplate } from "./utils.mjs";
 
-// Simple template function for a product card.
-// We keep the HTML here minimal and allow CSS to style it.
-// Note: product.Image in the JSON already points to ../images/... which resolves to /images after build.
-function productCardTemplate(product) {
-  // Defensive text fallbacks to avoid 'undefined' in UI
-  const brand = product.Brand?.Name ?? "";
-  const name = product.Name ?? "";
-  const price = (product.FinalPrice ?? product.ListPrice ?? product.SuggestedRetailPrice ?? "").toString();
-  const img = product.Image ?? "";
-  const id = product.Id ?? "";
+/** Choose a medium image for cards, with safe fallbacks */
+function getCardImage(product) {
+  return (
+    product?.Images?.PrimaryMedium ??
+    product?.Images?.PrimarySmall ??
+    "/images/noun_Tent_2517.svg"
+  );
+}
 
+/** Normalize brand to a string whether it's object {Name} or raw string */
+function getBrand(product) {
+  return typeof product?.Brand === "string"
+    ? product.Brand
+    : product?.Brand?.Name ?? "";
+}
+
+/** Prefer Name, fallback to NameWithoutBrand */
+function getName(product) {
+  return product?.Name ?? product?.NameWithoutBrand ?? "";
+}
+
+/** Choose the best available price field from API */
+function getPrice(product) {
+  const n =
+    product?.FinalPrice ??
+    product?.ListPrice ??
+    product?.SuggestedRetailPrice ??
+    0;
+  return Number(n).toFixed(2);
+}
+
+/** Template for a product card on the listing page */
+function productCardTemplate(product) {
   return `<li class="product-card">
-    <a href="product_pages/index.html?product=${id}">
-      <img src="${img}" alt="Image of ${name}">
-      <h2 class="card__brand">${brand}</h2>
-      <h3 class="card__name">${name}</h3>
-      <p class="product-card__price">$${price}</p>
+    <a href="/product_pages/index.html?product=${product.Id}">
+      <img src="${getCardImage(product)}" alt="Image of ${getName(product)}" />
+      <h3 class="card__brand">${getBrand(product)}</h3>
+      <h2 class="card__name">${getName(product)}</h2>
+      <p class="product-card__price">$${getPrice(product)}</p>
     </a>
   </li>`;
 }
 
 export default class ProductList {
   /**
-   * @param {string} category - product category, e.g., "tents"
-   * @param {object} dataSource - an object exposing getData(): Promise<Array<Product>>
-   * @param {HTMLElement} listElement - output target UL/OL element
+   * @param {string} category - current category (tents, backpacks, sleeping-bags, hammocks)
+   * @param {Object} dataSource - must have getData(category)
+   * @param {HTMLElement} listElement - UL or other container to insert cards into
    */
   constructor(category, dataSource, listElement) {
-    // You passed in this information to make the class as reusable as possible.
-    // Being able to define these things when you use the class will make it very flexible
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
   }
 
+  /** Fetch and render the list */
   async init() {
-    // the dataSource will return a Promise...so you can use await to resolve it.
-    const list = await this.dataSource.getData();
-    // next, render the list
-    this.renderList(list);
-  }
-
-  // Keep this thin; delegate to the reusable util function
-  renderList(list) {
-    // We use 'afterbegin' and clear=true so we always replace any placeholder content.
-    renderListWithTemplate(productCardTemplate, this.listElement, list, "afterbegin", true);
+    const list = await this.dataSource.getData(this.category);
+    renderListWithTemplate(
+      productCardTemplate,
+      this.listElement,
+      list,
+      "afterbegin",
+      true // clear container first
+    );
   }
 }
