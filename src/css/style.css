@@ -267,6 +267,27 @@ button {
 
 /* End product list card */
 
+
+
+/*Start Hiding Total in Cart if empty*/
+.hide {
+  display: none;
+}
+/*End Hiding Total in Cart if empty*/
+
+/*Start Styling to enhace apperiance of footer*/
+.cart-footer {
+  text-align: right;
+  padding: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-top: 1px solid #ddd;
+  margin-top: 1rem;
+  
+}
+/*End Styling to enhace apperiance of footer*/
+
+
 .product-detail {
   padding: 1em;
   max-width: 500px;
