@@ -55,6 +55,10 @@ p {
   height: 60px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .logo a {
   text-decoration: none;
   color: var(--font-body);
@@ -99,17 +103,6 @@ p {
   color: var(--tertiary-color);
 }
 
-button {
-  padding: 0.5em 2em;
-  background-color: var(--secondary-color);
-  color: white;
-  margin: 1rem auto;
-  display: block;
-  border: 0;
-  font-size: var(--large-font);
-  cursor: pointer;
-}
-
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
@@ -145,6 +138,7 @@ button {
   border-radius: 50%;
   z-index: 10;
 }
+
 /* End Backpack icon with item count styles */
 
 .mission {
@@ -172,6 +166,11 @@ button {
 .products h1 {
   text-align: center;
   margin-bottom: 1rem;
+}
+
+.checkout h1 {
+  text-align: center;
+  margin: 1rem;
 }
 
 .categories {
@@ -315,7 +314,7 @@ button {
   top: -10px;
   right: 10px;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--dark-grey);
   background: white;
@@ -325,7 +324,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .cart-card__remove:hover {
@@ -386,6 +385,17 @@ button {
   .cart-card {
     font-size: inherit;
     grid-template-columns: 150px auto 15%;
+  }
+
+  button {
+    background-color: var(--tertiary-color);
+    color: white;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+    padding: 0.8rem 1.5rem;
+    display: block;
+    margin: 1rem auto;
+    cursor: pointer;
   }
 }
 
