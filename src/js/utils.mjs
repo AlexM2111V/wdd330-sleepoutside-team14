@@ -70,3 +70,24 @@ export async function loadHeaderFooter() {
   if (headerElement) renderWithTemplate(headerTemplate, headerElement);
   if (footerElement) renderWithTemplate(footerTemplate, footerElement);
 }
+// ADD to src/js/utils.mjs
+export function alertMessage(message, scroll = true) {
+  const main = document.querySelector("main") || document.body;
+
+  const alert = document.createElement("div");
+  alert.className = "alert";
+  alert.setAttribute("role", "alert");
+  alert.innerHTML = `
+    <span class="alert__msg">${message}</span>
+    <button class="alert__close" aria-label="Dismiss">×</button>
+  `;
+
+  alert.addEventListener("click", (e) => {
+    if (e.target.classList.contains("alert__close")) {
+      alert.remove();
+    }
+  });
+
+  main.prepend(alert);
+  if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
+}

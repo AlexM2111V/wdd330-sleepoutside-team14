@@ -5,22 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sleep Outside | Checkout</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <script type="module" src="/js/checkout.js"></script>
+    <!-- This page is intentionally minimal: header/footer are injected dynamically; -->
+    <!-- summary figures are updated by CheckoutProcess based on cart contents.    -->
   </head>
-
   <body>
+    <!-- Dynamic header (rendered by loadHeaderFooter) -->
     <header class="divider" id="main-header"></header>
 
-    <main class="divider">
+    <main class="divider" style="padding: 1rem">
       <h1>Checkout</h1>
-      <p>Coming soon...</p>
+
+      <!-- Two-column layout: form + order summary -->
+      <section style="display:grid; grid-template-columns: 1fr 320px; gap:2rem; align-items:start;">
+        <!-- =======================
+             Checkout Form
+        ======================== -->
+        <form id="checkout-form" novalidate>
+          <fieldset>
+            <legend>Customer Name</legend>
+            <!-- IMPORTANT: names must match the keys the backend expects (fname, lname) -->
+            <label for="fname">First Name</label>
+            <input id="fname" name="fname" type="text" required />
+
+            <label for="lname">Last Name</label>
+            <input id="lname" name="lname" type="text" required />
+          </fieldset>
+
+          <fieldset>
+            <legend>Address</legend>
+            <!-- names must match: street, city, state, zip -->
+            <label for="street">Street Address</label>
+            <input id="street" name="street" type="text" required />
+
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" required />
+
+            <label for="state">State</label>
+            <input id="state" name="state" type="text" required />
+
+            <label for="zip">Zip Code</label>
+            <input id="zip" name="zip" type="text" pattern="\\d{5}" placeholder="12345" required />
+            <small>Enter ZIP to calculate tax &amp; shipping.</small>
+          </fieldset>
+
+          <fieldset>
+            <legend>Payment</legend>
+            <!-- names must match: cardNumber, expiration, code -->
+            <label for="cardNumber">Credit Card Number</label>
+            <input
+              id="cardNumber"
+              name="cardNumber"
+              type="text"
+              inputmode="numeric"
+              pattern="\\d{16}"
+              placeholder="1234123412341234"
+              required
+            />
+
+            <label for="expiration">Expiration (MM/YY)</label>
+            <input
+              id="expiration"
+              name="expiration"
+              type="text"
+              pattern="(0[1-9]|1[0-2])\\/\\d{2}"
+              placeholder="08/27"
+              required
+            />
+
+            <label for="code">Security Code</label>
+            <input id="code" name="code" type="text" inputmode="numeric" pattern="\\d{3}" placeholder="123" required />
+          </fieldset>
+
+          <button type="submit" id="place-order">Place Order</button>
+        </form>
+
+        <!-- =======================
+             Order Summary
+        ======================== -->
+        <aside class="order-summary" aria-label="Order Summary">
+          <h2>Order Summary</h2>
+          <!-- outputSelector is '#summary' in CheckoutProcess; the ids below are read by it -->
+          <div id="summary">
+            <p>Items: <span id="items-count">0</span></p>
+            <p>Subtotal: $<span id="subtotal">0.00</span></p>
+            <p>Tax (6%): $<span id="tax">0.00</span></p>
+            <p>Shipping: $<span id="shipping">0.00</span></p>
+            <hr />
+            <p><strong>Order Total: $<span id="orderTotal">0.00</span></strong></p>
+          </div>
+        </aside>
+      </section>
     </main>
 
+    <!-- Dynamic footer -->
     <footer id="main-footer"></footer>
 
-    <script type="module">
-      import { loadHeaderFooter } from "/js/utils.mjs";
-      loadHeaderFooter();
-    </script>
+    <!-- Page script: loads header/footer and attaches checkout logic -->
+    <script src="/js/checkout.js" type="module"></script>
   </body>
 </html>

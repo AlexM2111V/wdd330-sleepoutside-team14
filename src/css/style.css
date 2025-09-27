@@ -312,3 +312,175 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+/* =======================================================
+   W04 – Checkout styles (append to end of style.css)
+   - Proceed-to-checkout button
+   - Checkout form + summary card
+   ------------------------------------------------------- */
+
+/* Turn the proceed link into a button.
+   Works if the link contains "/checkout" in its href OR
+   if you add class="checkout-link" to it. */
+a.checkout-link,
+a[href$="/checkout/"],
+a[href$="/checkout/index.html"] {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--secondary-color);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+a.checkout-link:hover,
+a[href$="/checkout/"]:hover,
+a[href$="/checkout/index.html"]:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+a.checkout-link:active,
+a[href$="/checkout/"]:active,
+a[href$="/checkout/index.html"]:active {
+  transform: translateY(0);
+}
+
+/* ------------------------------
+   Checkout page: form styling
+   ------------------------------ */
+
+#checkout-form {
+  display: block;                 /* keep simple; layout is handled by the page grid */
+}
+
+#checkout-form fieldset {
+  border: 1px solid var(--light-grey);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1rem 0;
+}
+
+#checkout-form legend {
+  font-weight: 700;
+  padding: 0 0.25rem;
+  color: var(--dark-grey);
+}
+
+#checkout-form label {
+  display: block;
+  font-size: 0.95rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+#checkout-form input[type="text"],
+#checkout-form input[type="tel"],
+#checkout-form input[type="number"] {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  outline: none;
+  font: inherit;
+}
+
+#checkout-form input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 30%, transparent);
+}
+
+#checkout-form small {
+  display: block;
+  margin-top: 0.35rem;
+  color: #666;
+}
+
+/* Place Order button (id set in your HTML) */
+#place-order {
+  display: inline-block;
+  margin-top: 0.5rem;
+  background: var(--secondary-color);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+#place-order:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+#place-order:active {
+  transform: translateY(0);
+}
+
+/* ------------------------------
+   Checkout page: summary card
+   ------------------------------ */
+
+.order-summary {
+  border: 1px solid var(--light-grey);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  background: #fafafa;
+}
+
+.order-summary h2 {
+  margin: 0 0 0.5rem 0;
+}
+
+.order-summary #summary p {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.35rem 0;
+}
+
+.order-summary #summary hr {
+  margin: 0.5rem 0 0.65rem;
+  border: 0;
+  border-top: 1px solid var(--light-grey);
+}
+
+.order-summary #orderTotal {
+  font-weight: 800;
+}
+
+/* Keep things tidy on small screens */
+@media (max-width: 640px) {
+  .order-summary {
+    margin-top: 1rem;
+  }
+  #place-order {
+    width: 100%;
+  }
+}
+/* --- lightweight alert banner for checkout errors --- */
+.alert {
+  background: #f0a868;         /* matches your palette */
+  color: #111;
+  border-left: 6px solid #8a470c;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  margin: 0.75rem 0 1rem;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+
+.alert__close {
+  position: absolute;
+  right: 0.4rem;
+  top: 0.2rem;
+  border: 0;
+  background: transparent;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
