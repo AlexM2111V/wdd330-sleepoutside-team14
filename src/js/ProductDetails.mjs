@@ -40,7 +40,10 @@ function productDetailsTemplate(product) {
     container.innerHTML = `
     <h2>${product.Brand.Name}</h2>
     <h3 class="divider">${product.NameWithoutBrand}</h3>
-    <img src="${product.Images.PrimaryLarge}" alt="${product.NameWithoutBrand}" id="productImage" class="divider"/>
+    <picture>  <source media="(min-width: 1024px)" srcset="${product.Images.PrimaryExtraLarge}">
+    <source media="(min-width: 300px)" srcset="${product.Images.PrimaryLarge}">
+    <img src="${product.Images.PrimaryMedium}" alt="Responsive image">
+    </picture>
     <p class="product-detail-price">$${product.FinalPrice} <span class="saved"> ${percentageSaved}% off</span></p>
     <p class="product-detail-suggested">$${product.SuggestedRetailPrice}</p>
     <p id="productColor">${product.Colors[0].ColorName}</p>
