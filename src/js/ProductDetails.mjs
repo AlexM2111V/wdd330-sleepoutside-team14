@@ -12,7 +12,7 @@ export default class ProductDetails {
         // use the datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
         this.product = await this.dataSource.findProductById(this.productId);
         // the product details are needed before rendering the HTML
-        
+
         this.renderProductDetails();
         document
             .getElementById('addToCart')
@@ -35,12 +35,12 @@ function productDetailsTemplate(product) {
     const container = document.createElement("section");
     const percentageSaved = ((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice * 100).toFixed(0);
     container.classList.add("product-detail");
-    
+
 
     container.innerHTML = `
     <h2>${product.Brand.Name}</h2>
     <h3 class="divider">${product.NameWithoutBrand}</h3>
-    <picture>  <source media="(min-width: 1024px)" srcset="${product.Images.PrimaryExtraLarge}">
+    <picture>  <source media="(min-width: 600px)" srcset="${product.Images.PrimaryExtraLarge}">
     <source media="(min-width: 300px)" srcset="${product.Images.PrimaryLarge}">
     <img src="${product.Images.PrimaryMedium}" alt="Responsive image">
     </picture>
@@ -50,7 +50,7 @@ function productDetailsTemplate(product) {
     <div id="productDesc">${product.DescriptionHtmlSimple}</div>
     <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
   `;
-    
+
     document.querySelector("main").appendChild(container);
 
     return container;
