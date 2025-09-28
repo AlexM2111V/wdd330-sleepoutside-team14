@@ -66,6 +66,7 @@ a {
 
 .hero {
   position: relative;
+  margin-top: 10px;
 }
 
 .hero .logo {
@@ -163,12 +164,7 @@ a {
   padding: 1rem;
 }
 
-.products h1 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.checkout h1 {
+h1 {
   text-align: center;
   margin: 1rem;
 }
@@ -177,10 +173,6 @@ a {
   text-align: center;
   margin: 1rem;
   padding: 1rem;
-}
-
-.categories h1 {
-  margin: 1.5rem;
 }
 
 .category-img {
@@ -370,6 +362,34 @@ a {
   font-weight: bold;
   font-size: 1.1rem;
   color: var(--secondary-color);
+}
+
+.alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--tertiary-color);
+  color: white;
+  padding: 0 16px;
+  border-radius: 6px;
+  margin: 5px 0;
+  height: 40px;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.alert-message {
+  flex: 1;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
 }
 
 @media screen and (min-width: 500px) {

@@ -1,11 +1,7 @@
-import Alert from "./Alert.mjs";
 import { displayCartCount } from "./cart-icon.js";
-import { loadHeaderFooter } from "./utils.mjs";
-
-const alertManager = new Alert();
+import { loadHeaderFooter, alertMessage } from "./utils.mjs";
 
 loadHeaderFooter();
 
-alertManager.displayAlerts();
-
-displayCartCount();
+alertMessage("New Sleeping Bag Models Available!");
+alertMessage("New Tent Models Available!");
