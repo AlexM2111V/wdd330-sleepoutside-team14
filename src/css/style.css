@@ -354,6 +354,37 @@ h1 {
   grid-column: 3;
   grid-row: 1;
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.cart-card__quantity label {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.quantity-input {
+  width: 60px;
+  padding: 0.25rem;
+  border: 2px solid var(--light-grey);
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: white;
+  transition: border-color 0.2s ease;
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(240, 168, 104, 0.2);
+}
+
+.quantity-input:hover {
+  border-color: var(--tertiary-color);
 }
 
 .cart-card__price {

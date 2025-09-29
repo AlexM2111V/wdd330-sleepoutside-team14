@@ -1,4 +1,4 @@
-import { displayCartCount } from "./cart-icon.js";
+//import { displayCartCount } from "./cart-icon.js"; not being used currently, so I commented it out
 import { loadHeaderFooter, alertMessage } from "./utils.mjs";
 
 loadHeaderFooter();
