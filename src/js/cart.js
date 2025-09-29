@@ -1,5 +1,6 @@
 import { getLocalStorage } from "./utils.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
+import { displayCartCount } from "./cart-icon.js";
 
 loadHeaderFooter();
 
@@ -40,6 +41,7 @@ function removeItemFromCart(e) {
       cartItems.splice(itemIndex, 1);
       localStorage.setItem("so-cart", JSON.stringify(cartItems));
       renderCartContents();
+      displayCartCount();
     }
   }
 }
@@ -60,11 +62,16 @@ function updateQuantity(e) {
       cartItems[itemIndex].quantity = newQuantity;
       localStorage.setItem("so-cart", JSON.stringify(cartItems));
       renderCartContents();
+      displayCartCount();
     }
   }
 }
 
 renderCartContents();
+
+setTimeout(() => {
+  displayCartCount();
+}, 100);
 
 document
   .querySelector(".product-list")

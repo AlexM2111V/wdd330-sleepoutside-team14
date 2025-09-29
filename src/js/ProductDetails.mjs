@@ -21,9 +21,22 @@ export default class ProductDetails {
 
     addProductToCart() {
         const cartItems = getLocalStorage("so-cart") || [];
-        cartItems.push(this.product);
+        
+        // check if the product already exists in the cart
+        const existingItemIndex = cartItems.findIndex(item => item.Id === this.product.Id);
+        
+        if (existingItemIndex !== -1) {
+            // product exists, increase quantity
+            cartItems[existingItemIndex].quantity = (cartItems[existingItemIndex].quantity || 1) + 1;
+            alertMessage(`"${this.product.NameWithoutBrand}" quantity increased to ${cartItems[existingItemIndex].quantity}`);
+        } else {
+            // product doesn't exist, add it with quantity 1
+            this.product.quantity = 1;
+            cartItems.push(this.product);
+            alertMessage(`"${this.product.NameWithoutBrand}" was added to cart`);
+        }
+        
         setLocalStorage("so-cart", cartItems);
-        alertMessage(`"${this.product.NameWithoutBrand}" was added to cart`);
     }
 
     renderProductDetails() {
