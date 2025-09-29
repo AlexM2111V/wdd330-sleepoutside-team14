@@ -19,7 +19,7 @@ function packageItems(items) {
             id: item.Id,
             price: item.FinalPrice,
             name: item.Name,
-            quantity: 1,
+            quantity: item.quantity || 1,
         };
     });
     return simplifiedItems;
@@ -49,9 +49,11 @@ export default class CheckoutProcess {
         const itemNumElement = document.querySelector(
             this.outputSelector + " #num-items"
         );
-        itemNumElement.innerText = this.list.length;
-        // calculate the total of all the items in the cart
-        const amounts = this.list.map((item) => item.FinalPrice);
+        
+        const totalQuantity = this.list.reduce((total, item) => total + (item.quantity || 1), 0);
+        itemNumElement.innerText = totalQuantity;
+        
+        const amounts = this.list.map((item) => item.FinalPrice * (item.quantity || 1));
         this.itemTotal = amounts.reduce((sum, item) => sum + item, 0).toFixed(2);
         summaryElement.innerText = `$${this.itemTotal}`;
     }
@@ -59,7 +61,8 @@ export default class CheckoutProcess {
     calculateOrderTotal() {
         // calculate the shipping and tax amounts. Then use them to along with the cart total to figure out the order total
         this.tax = (this.itemTotal * .06);
-        this.shipping = 10 + (this.list.length - 1) * 2;
+        const totalQuantity = this.list.reduce((total, item) => total + (item.quantity || 1), 0);
+        this.shipping = 10 + (totalQuantity - 1) * 2;
         this.orderTotal = (
             parseFloat(this.itemTotal) +
             parseFloat(this.tax) +

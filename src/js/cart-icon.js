@@ -6,17 +6,26 @@ export function getCartItemCount() {
 
   // Check if the cart is not empty and do contains an array object
   if (Array.isArray(cartItems)) {
-    itemCount = cartItems.length;
+    itemCount = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
   }
   return itemCount;
 }
 
 export function displayCartCount() {
   const itemCount = getCartItemCount();
+  const backPackIcon = document.querySelector(".cart");
+  if (!backPackIcon) {
+    return;
+  }
+  
+  //prevent multiple badges from stacking
+  const existingBadge = backPackIcon.querySelector(".item-count-badge");
+  if (existingBadge) {
+    existingBadge.remove();
+  }
+  
   //If the cart if not null display the number of items
   if (itemCount > 0) {
-    //Get the class of the backpack
-    const backPackIcon = document.querySelector(".cart");
     //This is for creating the badge
     const itemCountElement = document.createElement("span");
     //This is for placing the number in the new element(badge)
