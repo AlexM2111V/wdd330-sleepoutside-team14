@@ -1,0 +1,16 @@
+﻿/* checkout.css - simple styles for demo */
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 1.5rem; color: #222; background: #fff; }
+main { max-width: 720px; margin: 0 auto; }
+.form-field { margin-bottom: 0.9rem; }
+.form-row { display: flex; gap: 1rem; }
+.form-row .form-field { flex: 1; }
+label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
+input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+.error { color: #b00020; font-size: 0.9rem; margin-top: 0.25rem; min-height: 1.1rem; }
+.field-invalid { outline: 2px solid #b00020; }
+[disabled] { opacity: .6; }
+#form-error-summary { margin: 0.5rem 0; color: #b00020; font-weight: 600; }
+#checkout-status.success { color: #0a7d15; font-weight: 600; }
+#checkout-status.failure { color: #b00020; font-weight: 600; }
+button#checkout-btn { background:#003366; color:#fff; border:none; padding:0.6rem 1rem; border-radius:6px; font-weight:600; cursor:pointer; }
+button#checkout-btn[disabled] { cursor: default; }

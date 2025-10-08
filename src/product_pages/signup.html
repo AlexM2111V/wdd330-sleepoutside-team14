@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .newsletter-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .newsletter-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .newsletter-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .newsletter-header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .error-message {
+            color: #ffcccb;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .form-group input.error {
+            border: 2px solid #ff6b6b;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: white;
+            color: #667eea;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .privacy-text {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="newsletter-container">
+        <div class="newsletter-header">
+            <h2>📧 Stay Updated!</h2>
+            <p>Subscribe to our newsletter for the latest outdoor gear deals and tips</p>
+        </div>
+
+        <form id="newsletterForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Enter your name"
+                    required
+                >
+                <span class="error-message" id="nameError">Please enter your name</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="your.email@example.com"
+                    required
+                >
+                <span class="error-message" id="emailError">Please enter a valid email address</span>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Subscribe Now
+            </button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            ✓ Thank you for subscribing! Check your email to confirm.
+        </div>
+
+        <p class="privacy-text">
+            We respect your privacy. Unsubscribe at any time.
+        </p>
+    </div>
+
+    <script>
+        const form = document.getElementById('newsletterForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        // Email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Store submissions in memory
+        let subscribers = [];
+
+        // Validate name
+        function validateName() {
+            const name = nameInput.value.trim();
+            if (name.length < 2) {
+                nameInput.classList.add('error');
+                nameError.classList.add('show');
+                nameError.textContent = 'Name must be at least 2 characters';
+                return false;
+            }
+            nameInput.classList.remove('error');
+            nameError.classList.remove('show');
+            return true;
+        }
+
+        // Validate email
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            if (!emailRegex.test(email)) {
+                emailInput.classList.add('error');
+                emailError.classList.add('show');
+                emailError.textContent = 'Please enter a valid email address';
+                return false;
+            }
+            emailInput.classList.remove('error');
+            emailError.classList.remove('show');
+            return true;
+        }
+
+        // Real-time validation
+        nameInput.addEventListener('blur', validateName);
+        emailInput.addEventListener('blur', validateEmail);
+
+        // Remove error on input
+        nameInput.addEventListener('input', () => {
+            if (nameInput.classList.contains('error')) {
+                nameInput.classList.remove('error');
+                nameError.classList.remove('show');
+            }
+        });
+
+        emailInput.addEventListener('input', () => {
+            if (emailInput.classList.contains('error')) {
+                emailInput.classList.remove('error');
+                emailError.classList.remove('show');
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+
+            if (isNameValid && isEmailValid) {
+                // Disable button during "submission"
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Subscribing...';
+
+                // Store subscriber data
+                const subscriber = {
+                    name: nameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    timestamp: new Date().toISOString()
+                };
+                subscribers.push(subscriber);
+
+                // Simulate API call
+                setTimeout(() => {
+                    // Show success message
+                    successMessage.classList.add('show');
+                    
+                    // Log to console (in production, this would be sent to your server)
+                    console.log('New subscriber:', subscriber);
+                    console.log('All subscribers:', subscribers);
+
+                    // Reset form
+                    form.reset();
+                    
+                    // Re-enable button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Subscribe Now';
+
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 5000);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
