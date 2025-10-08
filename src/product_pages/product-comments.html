@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Comments System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .product-demo {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .product-demo h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-demo p {
+            color: #666;
+        }
+
+        .comments-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .comments-header h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .comments-count {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .comment-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .rating-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rating-group label {
+            margin: 0;
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 28px;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffc107;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .comments-list {
+            margin-top: 30px;
+        }
+
+        .no-comments {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .comment {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s;
+        }
+
+        .comment:hover {
+            transform: translateX(5px);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .author-info h4 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .comment-date {
+            color: #6c757d;
+            font-size: 13px;
+        }
+
+        .comment-rating {
+            display: flex;
+            gap: 3px;
+        }
+
+        .comment-rating .star {
+            font-size: 16px;
+            cursor: default;
+        }
+
+        .comment-text {
+            color: #495057;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .success-notification {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .success-notification.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sort-filter {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sort-filter label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .sort-filter select {
+            padding: 8px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Product Demo Section -->
+        <div class="product-demo">
+            <h1>Marmot Ajax 3 Tent</h1>
+            <p>Experience ultimate outdoor comfort with this spacious 3-person tent.</p>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <h2>Customer Reviews</h2>
+                <span class="comments-count" id="commentCount">0 Reviews</span>
+            </div>
+
+            <div class="success-notification" id="successNotification">
+                ✓ Your review has been posted successfully!
+            </div>
+
+            <!-- Comment Form -->
+            <div class="comment-form">
+                <h3 style="margin-bottom: 20px; color: #333;">Write a Review</h3>
+                <form id="commentForm">
+                    <div class="form-group">
+                        <label for="userName">Your Name *</label>
+                        <input 
+                            type="text" 
+                            id="userName" 
+                            placeholder="Enter your name"
+                            required
+                        >
+                        <span class="error-message" id="nameError">Please enter your name</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail">Your Email *</label>
+                        <input 
+                            type="email" 
+                            id="userEmail" 
+                            placeholder="your.email@example.com"
+                            required
+                        >
+                        <span class="error-message" id="emailError">Please enter a valid email address</span>
+                    </div>
+
+                    <div class="rating-group">
+                        <label>Rating *</label>
+                        <div class="stars" id="starRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="ratingValue" value="0">
+                    </div>
+                    <span class="error-message" id="ratingError">Please select a rating</span>
+
+                    <div class="form-group">
+                        <label for="commentText">Your Review *</label>
+                        <textarea 
+                            id="commentText" 
+                            placeholder="Share your experience with this product..."
+                            required
+                        ></textarea>
+                        <span class="error-message" id="commentError">Please write a review (minimum 10 characters)</span>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Post Review
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sort/Filter Options -->
+            <div class="sort-filter">
+                <label for="sortComments">Sort by:</label>
+                <select id="sortComments">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="highest">Highest Rated</option>
+                    <option value="lowest">Lowest Rated</option>
+                </select>
+            </div>
+
+            <!-- Comments List -->
+            <div class="comments-list" id="commentsList">
+                <div class="no-comments">
+                    No reviews yet. Be the first to review this product!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store comments in memory (grouped by product)
+        let productComments = {
+            'product-1': [] // Using product-1 as demo
+        };
+        const currentProductId = 'product-1';
+        
+        let selectedRating = 0;
+
+        // DOM Elements
+        const form = document.getElementById('commentForm');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const commentText = document.getElementById('commentText');
+        const ratingValue = document.getElementById('ratingValue');
+        const stars = document.querySelectorAll('.star');
+        const commentsList = document.getElementById('commentsList');
+        const commentCount = document.getElementById('commentCount');
+        const successNotification = document.getElementById('successNotification');
+        const sortSelect = document.getElementById('sortComments');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const commentError = document.getElementById('commentError');
+        const ratingError = document.getElementById('ratingError');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Star Rating System
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                ratingValue.value = selectedRating;
+                updateStars();
+                ratingError.classList.remove('show');
+            });
+
+            star.addEventListener('mouseenter', () => {
+                const rating = parseInt(star.dataset.rating);
+                highlightStars(rating);
+            });
+        });
+
+        document.getElementById('starRating').addEventListener('mouseleave', () => {
+            updateStars();
+        });
+
+        function highlightStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function updateStars() {
+            highlightStars(selectedRating);
+        }
+
+        // Validation Functions
+        function validateName() {
+            const name = userName.value.trim();
+            if (name.length < 2) {
+                userName.classList.add('error');
+                nameError.classList.add('show');
+                return false;
+            }
+            userName.classList.remove('error');
+            nameError.classList.remove('show');
+            return true;
+        }
+
+        function validateEmail() {
+            const email = userEmail.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                userEmail.classList.add('error');
+                emailError.classList.add('show');
+                return false;
+            }
+            userEmail.classList.remove('error');
+            emailError.classList.remove('show');
+            return true;
+        }
+
+        function validateComment() {
+            const comment = commentText.value.trim();
+            if (comment.length < 10) {
+                commentText.classList.add('error');
+                commentError.classList.add('show');
+                return false;
+            }
+            commentText.classList.remove('error');
+            commentError.classList.remove('show');
+            return true;
+        }
+
+        function validateRating() {
+            if (selectedRating === 0) {
+                ratingError.classList.add('show');
+                return false;
+            }
+            ratingError.classList.remove('show');
+            return true;
+        }
+
+        // Real-time validation
+        userName.addEventListener('blur', validateName);
+        userEmail.addEventListener('blur', validateEmail);
+        commentText.addEventListener('blur', validateComment);
+
+        userName.addEventListener('input', () => {
+            if (userName.classList.contains('error')) {
+                userName.classList.remove('error');
+                nameError.classList.remove('show');
+            }
+        });
+
+        userEmail.addEventListener('input', () => {
+            if (userEmail.classList.contains('error')) {
+                userEmail.classList.remove('error');
+                emailError.classList.remove('show');
+            }
+        });
+
+        commentText.addEventListener('input', () => {
+            if (commentText.classList.contains('error')) {
+                commentText.classList.remove('error');
+                commentError.classList.remove('show');
+            }
+        });
+
+        // Form Submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isCommentValid = validateComment();
+            const isRatingValid = validateRating();
+
+            if (isNameValid && isEmailValid && isCommentValid && isRatingValid) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Posting...';
+
+                const newComment = {
+                    id: Date.now(),
+                    name: userName.value.trim(),
+                    email: userEmail.value.trim(),
+                    text: commentText.value.trim(),
+                    rating: selectedRating,
+                    date: new Date(),
+                    productId: currentProductId
+                };
+
+                // Add comment to storage
+                if (!productComments[currentProductId]) {
+                    productComments[currentProductId] = [];
+                }
+                productComments[currentProductId].push(newComment);
+
+                // Log for debugging
+                console.log('New comment added:', newComment);
+                console.log('All comments for this product:', productComments[currentProductId]);
+
+                // Reset form
+                form.reset();
+                selectedRating = 0;
+                updateStars();
+
+                // Show success notification
+                successNotification.classList.add('show');
+                setTimeout(() => {
+                    successNotification.classList.remove('show');
+                }, 3000);
+
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Post Review';
+
+                // Refresh comments display
+                displayComments();
+            }
+        });
+
+        // Display Comments
+        function displayComments() {
+            const comments = productComments[currentProductId] || [];
+            
+            // Update count
+            commentCount.textContent = `${comments.length} ${comments.length === 1 ? 'Review' : 'Reviews'}`;
+
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<div class="no-comments">No reviews yet. Be the first to review this product!</div>';
+                return;
+            }
+
+            // Sort comments based on selection
+            const sortedComments = sortComments([...comments]);
+
+            commentsList.innerHTML = sortedComments.map(comment => `
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-author">
+                            <div class="author-avatar">
+                                ${comment.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="author-info">
+                                <h4>${comment.name}</h4>
+                                <span class="comment-date">${formatDate(comment.date)}</span>
+                            </div>
+                        </div>
+                        <div class="comment-rating">
+                            ${generateStars(comment.rating)}
+                        </div>
+                    </div>
+                    <div class="comment-text">${comment.text}</div>
+                </div>
+            `).join('');
+        }
+
+        // Sort Comments
+        function sortComments(comments) {
+            const sortBy = sortSelect.value;
+            
+            switch(sortBy) {
+                case 'newest':
+                    return comments.sort((a, b) => new Date(b.date) - new Date(a.date));
+                case 'oldest':
+                    return comments.sort((a, b) => new Date(a.date) - new Date(b.date));
+                case 'highest':
+                    return comments.sort((a, b) => b.rating - a.rating);
+                case 'lowest':
+                    return comments.sort((a, b) => a.rating - b.rating);
+                default:
+                    return comments;
+            }
+        }
+
+        sortSelect.addEventListener('change', displayComments);
+
+        // Helper Functions
+        function generateStars(rating) {
+            let starsHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHTML += `<span class="star ${i <= rating ? 'active' : ''}">★</span>`;
+            }
+            return starsHTML;
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            const now = new Date();
+            const diffTime = Math.abs(now - d);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) {
+                return 'Today';
+            } else if (diffDays === 1) {
+                return 'Yesterday';
+            } else if (diffDays < 7) {
+                return `${diffDays} days ago`;
+            } else {
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+        }
+
+        // Initialize display
+        displayComments();
+    </script>
+</body>
+</html>

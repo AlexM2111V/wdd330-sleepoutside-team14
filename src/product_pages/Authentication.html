@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Outside - Admin Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .form-group input.error {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+            animation: shake 0.3s;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+            user-select: none;
+        }
+
+        .password-toggle:hover {
+            color: #333;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 15px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-btn .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto;
+        }
+
+        .login-btn.loading .spinner {
+            display: block;
+        }
+
+        .login-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .info-text {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #28a745;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">SO</div>
+            <h1>Admin Portal</h1>
+            <p>Sign in to manage orders</p>
+        </div>
+
+        <div class="alert alert-error" id="errorAlert"></div>
+        <div class="alert alert-success" id="successAlert"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="admin@sleepoutside.com"
+                        autocomplete="email"
+                        required
+                    >
+                    <span class="input-icon">📧</span>
+                </div>
+                <span class="error-message" id="emailError">Please enter a valid email address</span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                    <span class="password-toggle" id="togglePassword">👁️</span>
+                </div>
+                <span class="error-message" id="passwordError">Password must be at least 6 characters</span>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-password" id="forgotPassword">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="btn-text">Sign In</span>
+                <div class="spinner"></div>
+            </button>
+
+            <div class="secure-badge">
+                🔒 Secure Connection
+            </div>
+        </form>
+
+        <div class="info-text">
+            This area is restricted to authorized personnel only.
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Replace with your actual API endpoint
+        const API_ENDPOINT = '/api/auth/login'; // Change this to your server endpoint
+        
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+        const loginBtn = document.getElementById('loginBtn');
+        const togglePassword = document.getElementById('togglePassword');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+        const forgotPasswordLink = document.getElementById('forgotPassword');
+
+        // Email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Check for saved credentials on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedEmail = localStorage.getItem('rememberedEmail');
+            if (savedEmail) {
+                emailInput.value = savedEmail;
+                rememberMeCheckbox.checked = true;
+            }
+
+            // Check if already logged in
+            const token = sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
+            if (token) {
+                showAlert('You are already logged in. Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = '/admin/orders.html'; // Change to your orders page
+                }, 1500);
+            }
+        });
+
+        // Password toggle functionality
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            togglePassword.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+        });
+
+        // Validation Functions
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            if (!emailRegex.test(email)) {
+                emailInput.classList.add('error');
+                emailError.classList.add('show');
+                return false;
+            }
+            emailInput.classList.remove('error');
+            emailError.classList.remove('show');
+            return true;
+        }
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            if (password.length < 6) {
+                passwordInput.classList.add('error');
+                passwordError.classList.add('show');
+                return false;
+            }
+            passwordInput.classList.remove('error');
+            passwordError.classList.remove('show');
+            return true;
+        }
+
+        // Real-time validation
+        emailInput.addEventListener('blur', validateEmail);
+        passwordInput.addEventListener('blur', validatePassword);
+
+        emailInput.addEventListener('input', () => {
+            if (emailInput.classList.contains('error')) {
+                emailInput.classList.remove('error');
+                emailError.classList.remove('show');
+            }
+            hideAlerts();
+        });
+
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.classList.contains('error')) {
+                passwordInput.classList.remove('error');
+                passwordError.classList.remove('show');
+            }
+            hideAlerts();
+        });
+
+        // Show alert message
+        function showAlert(message, type = 'error') {
+            hideAlerts();
+            const alert = type === 'error' ? errorAlert : successAlert;
+            alert.textContent = message;
+            alert.classList.add('show');
+        }
+
+        // Hide all alerts
+        function hideAlerts() {
+            errorAlert.classList.remove('show');
+            successAlert.classList.remove('show');
+        }
+
+        // Handle "Remember Me"
+        function handleRememberMe(email) {
+            if (rememberMeCheckbox.checked) {
+                localStorage.setItem('rememberedEmail', email);
+            } else {
+                localStorage.removeItem('rememberedEmail');
+            }
+        }
+
+        // Store authentication token
+        function storeAuthToken(token) {
+            // Store in sessionStorage by default
+            sessionStorage.setItem('authToken', token);
+            
+            // Also store in localStorage if "Remember Me" is checked
+            if (rememberMeCheckbox.checked) {
+                localStorage.setItem('authToken', token);
+            }
+            
+            // Store token expiration time (1 hour from now)
+            const expirationTime = new Date().getTime() + (60 * 60 * 1000);
+            sessionStorage.setItem('tokenExpiration', expirationTime);
+            
+            console.log('Token stored successfully');
+        }
+
+        // Login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideAlerts();
+
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+
+            if (!isEmailValid || !isPasswordValid) {
+                showAlert('Please correct the errors before submitting', 'error');
+                return;
+            }
+
+            // Disable button and show loading state
+            loginBtn.disabled = true;
+            loginBtn.classList.add('loading');
+
+            const credentials = {
+                email: emailInput.value.trim(),
+                password: passwordInput.value
+            };
+
+            try {
+                // Make API call to server
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(credentials)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.token) {
+                    // Successful login
+                    console.log('Login successful!', data);
+                    
+                    // Store the authentication token
+                    storeAuthToken(data.token);
+                    
+                    // Handle remember me
+                    handleRememberMe(credentials.email);
+                    
+                    // Show success message
+                    showAlert('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect to orders page after short delay
+                    setTimeout(() => {
+                        window.location.href = '/admin/orders.html'; // Change to your orders page URL
+                    }, 1500);
+                    
+                } else {
+                    // Login failed
+                    const errorMessage = data.message || 'Invalid email or password';
+                    showAlert(errorMessage, 'error');
+                    
+                    // Re-enable button
+                    loginBtn.disabled = false;
+                    loginBtn.classList.remove('loading');
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                // For demo purposes: Simulate successful login if API endpoint doesn't exist
+                if (error.message.includes('Failed to fetch')) {
+                    console.log('Demo mode: Simulating successful login');
+                    
+                    // Generate a demo token
+                    const demoToken = 'demo_token_' + btoa(credentials.email + Date.now());
+                    
+                    storeAuthToken(demoToken);
+                    handleRememberMe(credentials.email);
+                    
+                    showAlert('Demo login successful! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        // In demo mode, just show alert
+                        alert('In production, you would be redirected to the orders page with token: ' + demoToken);
+                        loginBtn.disabled = false;
+                        loginBtn.classList.remove('loading');
+                    }, 1500);
+                } else {
+                    showAlert('An error occurred. Please try again.', 'error');
+                    loginBtn.disabled = false;
+                    loginBtn.classList.remove('loading');
+                }
+            }
+        });
+
+        // Forgot password handler
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Password reset functionality would be implemented here.\n\nIn production, this would:\n1. Send a reset email\n2. Generate a secure reset token\n3. Allow user to create a new password');
+        });
+
+        // Helper function to get stored token (for use in other pages)
+        function getAuthToken() {
+            return sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
+        }
+
+        // Helper function to check if token is expired
+        function isTokenExpired() {
+            const expiration = sessionStorage.getItem('tokenExpiration');
+            if (!expiration) return true;
+            return new Date().getTime() > parseInt(expiration);
+        }
+
+        // Helper function to logout (clear token)
+        function logout() {
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('tokenExpiration');
+            localStorage.removeItem('authToken');
+            window.location.href = '/admin/login.html';
+        }
+
+        // Make helper functions available globally for other pages
+        window.authHelpers = {
+            getAuthToken,
+            isTokenExpired,
+            logout
+        };
+    </script>
+</body>
+</html>
