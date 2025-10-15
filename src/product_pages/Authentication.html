@@ -323,67 +323,67 @@
     <main class="divider">
         <div class="auth-body">
             <div class="login-container">
-        <div class="login-header">
-            <div class="logo">SO</div>
-            <h1>Admin Portal</h1>
-            <p>Sign in to manage orders</p>
-        </div>
-
-        <div class="alert alert-error" id="errorAlert"></div>
-        <div class="alert alert-success" id="successAlert"></div>
-
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-wrapper">
-                    <input 
-                        type="email" 
-                        id="email" 
-                        placeholder="admin@sleepoutside.com"
-                        autocomplete="email"
-                        required
-                    >
-                    <span class="input-icon">📧</span>
+                <div class="login-header">
+                    <div class="logo">SO</div>
+                    <h1>Admin Portal</h1>
+                    <p>Sign in to manage orders</p>
                 </div>
-                <span class="error-message" id="emailError">Please enter a valid email address</span>
-            </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <input 
-                        type="password" 
-                        id="password" 
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
-                    <span class="password-toggle" id="togglePassword">👁️</span>
+                <div class="alert alert-error" id="errorAlert"></div>
+                <div class="alert alert-success" id="successAlert"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="email" 
+                                id="email" 
+                                placeholder="admin@sleepoutside.com"
+                                autocomplete="email"
+                                required
+                            >
+                            <span class="input-icon">📧</span>
+                        </div>
+                        <span class="error-message" id="emailError">Please enter a valid email address</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <span class="password-toggle" id="togglePassword">👁️</span>
+                        </div>
+                        <span class="error-message" id="passwordError">Password must be at least 6 characters</span>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password" id="forgotPassword">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="spinner"></div>
+                    </button>
+
+                    <div class="secure-badge">
+                        🔒 Secure Connection
+                    </div>
+                </form>
+
+                <div class="info-text">
+                    This area is restricted to authorized personnel only.
                 </div>
-                <span class="error-message" id="passwordError">Password must be at least 6 characters</span>
-            </div>
-
-            <div class="remember-forgot">
-                <label class="remember-me">
-                    <input type="checkbox" id="rememberMe">
-                    <span>Remember me</span>
-                </label>
-                <a href="#" class="forgot-password" id="forgotPassword">Forgot password?</a>
-            </div>
-
-            <button type="submit" class="login-btn" id="loginBtn">
-                <span class="btn-text">Sign In</span>
-                <div class="spinner"></div>
-            </button>
-
-            <div class="secure-badge">
-                🔒 Secure Connection
-            </div>
-        </form>
-
-            <div class="info-text">
-                This area is restricted to authorized personnel only.
-            </div>
             </div>
         </div>
     </main>
@@ -394,12 +394,15 @@
         
         // Load header and footer
         loadHeaderFooter();
-        
-        // Configuration - Replace with your actual API endpoint
-        const API_ENDPOINT = '/api/auth/login'; // Change this to your server endpoint
-        
-        // DOM Elements
-        const loginForm = document.getElementById('loginForm');
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuration - Replace with your actual API endpoint
+            const API_ENDPOINT = '/api/auth/login'; // Change this to your server endpoint
+            
+            // DOM Elements
+            const loginForm = document.getElementById('loginForm');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const rememberMeCheckbox = document.getElementById('rememberMe');
@@ -415,22 +418,20 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         // Check for saved credentials on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedEmail = localStorage.getItem('rememberedEmail');
-            if (savedEmail) {
-                emailInput.value = savedEmail;
-                rememberMeCheckbox.checked = true;
-            }
+        const savedEmail = localStorage.getItem('rememberedEmail');
+        if (savedEmail) {
+            emailInput.value = savedEmail;
+            rememberMeCheckbox.checked = true;
+        }
 
-            // Check if already logged in
-            const token = sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
-            if (token) {
-                showAlert('You are already logged in. Redirecting...', 'success');
-                setTimeout(() => {
-                    window.location.href = '/admin/orders.html'; // Change to your orders page
-                }, 1500);
-            }
-        });
+        // Check if already logged in
+        const token = sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
+        if (token) {
+            showAlert('You are already logged in. Redirecting...', 'success');
+            setTimeout(() => {
+                window.location.href = '/admin/orders.html'; // Change to your orders page
+            }, 1500);
+        }
 
         // Password toggle functionality
         togglePassword.addEventListener('click', () => {
@@ -641,12 +642,13 @@
             window.location.href = '/admin/login.html';
         }
 
-        // Make helper functions available globally for other pages
-        window.authHelpers = {
-            getAuthToken,
-            isTokenExpired,
-            logout
-        };
+            // Make helper functions available globally for other pages
+            window.authHelpers = {
+                getAuthToken,
+                isTokenExpired,
+                logout
+            };
+        });
     </script>
 </body>
 </html>
