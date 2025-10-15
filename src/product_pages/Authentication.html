@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sleep Outside - Admin Login</title>
+    <link rel="stylesheet" href="../css/style.css" />
     <style>
         * {
             margin: 0;
@@ -11,10 +12,10 @@
             box-sizing: border-box;
         }
 
-        body {
+        .auth-body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -318,7 +319,10 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <header class="divider" id="main-header"></header>
+    <main class="divider">
+        <div class="auth-body">
+            <div class="login-container">
         <div class="login-header">
             <div class="logo">SO</div>
             <h1>Admin Portal</h1>
@@ -377,12 +381,20 @@
             </div>
         </form>
 
-        <div class="info-text">
-            This area is restricted to authorized personnel only.
+            <div class="info-text">
+                This area is restricted to authorized personnel only.
+            </div>
+            </div>
         </div>
-    </div>
+    </main>
+    <footer id="main-footer"></footer>
 
-    <script>
+    <script type="module">
+        import { loadHeaderFooter } from '../js/utils.mjs';
+        
+        // Load header and footer
+        loadHeaderFooter();
+        
         // Configuration - Replace with your actual API endpoint
         const API_ENDPOINT = '/api/auth/login'; // Change this to your server endpoint
         

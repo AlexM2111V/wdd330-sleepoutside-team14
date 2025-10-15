@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newsletter Signup</title>
+    <title>Sleep Outside | Newsletter Signup</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/utils.mjs" type="module"></script>
     <style>
         * {
             margin: 0;
@@ -146,7 +148,9 @@
     </style>
 </head>
 <body>
-    <div class="newsletter-container">
+    <header class="divider" id="main-header"></header>
+    <main class="divider">
+        <div class="newsletter-container">
         <div class="newsletter-header">
             <h2>📧 Stay Updated!</h2>
             <p>Subscribe to our newsletter for the latest outdoor gear deals and tips</p>
@@ -189,9 +193,16 @@
         <p class="privacy-text">
             We respect your privacy. Unsubscribe at any time.
         </p>
-    </div>
+        </div>
+    </main>
+    <footer id="main-footer"></footer>
 
-    <script>
+    <script type="module">
+        import { loadHeaderFooter } from '../js/utils.mjs';
+        
+        // Load header and footer
+        loadHeaderFooter();
+        
         const form = document.getElementById('newsletterForm');
         const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
